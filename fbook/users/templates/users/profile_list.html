@@ -1,0 +1,42 @@
+{% extends 'blogs/base.html' %}
+{% block content %}
+{% if is_empty %}
+    <h4>Currently the list is empty</h4>
+{% endif %}
+{{profile}}
+    {% for i in qs %}
+        <div class="ui segment">
+            <div class="ui grid">
+                <div class="row">
+                    <div class="three wide column">
+                        <img src="{{i.image.url}}" class="ui small circular image" alt="PIC">
+                    </div>
+                    <div class="thirteen wide column">
+                        <h3>{{i.user}}</h3>
+                        <p>{{i.bio}}</p>
+                        <a href="{% url 'profileDetail' i.id %}" class="ui primary button w-btn">See profile</a>
+                    {% if i.user not in rel_receiver and i.user not in rel_sender %}
+                    <form action="{% url 'sendInvite' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_id" value={{i.id}}>
+                            <button type="submit" class="ui positive basic button mt-8 w-btn"><i class="plus square icon"></i>Add to Friends</button>
+                    </form>
+                    {% endif %}
+                    <div class="next">
+                    {% if i.user in rel_receiver and request.user not in i.friends.all %}
+                        <button type="submit" class="ui disabled button mt-8 w-btn"><i class="user icon"></i>Waiting for approval</button>
+                    {% endif %}
+                    </div>
+                    {% if request.user in i.friends.all %}
+                    <form action="{% url 'removeFriends' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_id" value={{i.id}}>
+                           <button type="submit" class="ui negative basic button mt-8 w-btn"><i class="minus square icon"></i>Remove as Friend</button>   
+                    </form>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}

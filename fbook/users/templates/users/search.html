@@ -1,0 +1,22 @@
+{% extends 'blogs/base.html' %}
+{% block content %}
+<h3>Search result for : '{{query}}'</h3>
+    {% for i in result %}
+        <div class="ui segment">
+            <div class="ui grid">
+                <div class="row">
+                    <div class="three wide column">
+                        <img src="{{i.profile.image.url}}" class="ui small circular image" alt="PIC">
+                    </div>
+                    <div class="thirteen wide column">
+                        <a href="{% url 'profileDetail' i.id %}"><h3>{{i.first_name}} {{i.last_name}}</h3></a>
+                        <p class="ui secondary">@{{i.username}}</p>
+                        <a class="ui red tag label">Post:{{i.profile.get_posts_number}}</a>
+                        <a class="ui teal tag label">Friends:{{i.profile.get_friends_number}}</a>
+                        <p>Joined {{i.profile.created}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}

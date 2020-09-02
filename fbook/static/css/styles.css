@@ -1,0 +1,42 @@
+.body{
+    background-color: #f8f8f8 !important;
+}
+
+.nav{
+    background-color: #000080 !important;
+    font-size: 16px !important;
+    border-radius: 0px !important;
+    padding: 10px 0px 10px 0px !important;
+}
+
+.mt-8{
+    margin-top: 8px !important;
+}
+.mb-8{
+    margin-bottom: 8px !important;
+}
+.ml-4{
+    margin-left: 4px !important;
+}
+.mr-4{
+    margin-right: 4px !important;
+}
+
+.w-btn{
+    width: 200px !important; 
+}
+
+.bwhite-lg{
+    background-color: transparent !important;
+
+}
+
+
+.bwhite-sm{
+    background-color: transparent !important;
+    width: 10px !important;
+}
+
+.comment-box{
+    display: none;
+}

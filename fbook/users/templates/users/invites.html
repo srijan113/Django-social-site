@@ -1,0 +1,39 @@
+{% extends 'blogs/base.html' %}
+{% block content %}
+{% if is_empty %}
+<h1>No invitation at the current time.</p>
+{% endif %}
+    {% for i in invites %}
+        <div class="ui segment">
+            <div class="ui grid">
+                <div class="row">
+                    <div class="three wide column">
+                        <img class="ui small circular image" src="{{i.image.url}}" alt="PIC">
+                    </div>
+                    <div class="thirteen wide column">
+                        <h3>{{i.user.username}}</h3>
+                        <p>{{i.bio}}</p>
+                        <a href="{% url 'profileDetail' i.id %}" name="profile_id" value={{i.id}} class="ui primary button w-btn mb-8">See Profile</a> 
+
+                        <form action="{% url 'acceptInvites' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name='profile_id' value={{i.id}}>
+                            <button type="submit" class="ui positive basic w-btn mb-8 button">
+                                <i class="check icon"></i>
+                                Accept
+                            </button>
+                        </form>
+                        <form action="{% url 'rejectInvites' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="profile_id" value={{i.id}}>
+                            <button type="submit" class="ui negative basic w-btn mb-8 button">
+                                <i class="close icon"></i>
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}

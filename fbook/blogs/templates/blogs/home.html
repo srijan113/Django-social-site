@@ -1,0 +1,90 @@
+{% extends 'blogs/base.html' %}
+{% block content %}
+<div class="ui grid">
+    <div class="eleven wide column">
+        {% for i in posts %}
+        <div class="ui fluid card">
+            <div class="content">
+                <div class="right floated meta">
+                <div class="ui grid">
+                    <div class="row">
+                        {% ifequal request.user i.author.user %}
+                            <a href="{% url 'postUpdate' i.id %}"><button class="ui button bwhite-lg "><i class="edit outline icon"></i>Edit</button></a>
+                            <a href="{% url 'postDelete' i.id %}"><button class="ui button bwhite-lg "><i class="trash alternate outline icon"></i>Delete</button></a>
+                        {% endifequal %}
+                    </div>
+                </div>
+                    
+                </div>
+                <img class="ui avatar image" src="{{i.author.image.url}}"> 
+                {{ i.author }} - {{ i.created|timesince}} ago
+            </div>
+            <div class="ui fluid image">
+                {% if i.image %}
+                    <img src="{{i.image.url}}" alt="PIC">
+                {% endif %}
+            </div>
+            <div class="content">
+                <p> {{ i.content }} </p>
+                <div class="right floated">
+                    <form action="{% url 'likeUnlikePost' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value="{{i.id}}">
+                        {% if profile not in i.liked.all %}
+                            <button type="submit" class="ui bwhite-sm button"><i class="thumbs up icon"></i>
+                            </button>
+                            <span> {{i.number_likes}} likes</span>
+                        {% else %}
+                            <button type="submit" class="ui bwhite-sm button"><i class="thumbs down icon"></i>
+                            </button>
+                            <span> {{i.number_likes}} likes</span>
+                        {% endif %}
+                    </form>
+                </div>
+                <i class="comment icon"></i>
+                <span> {{ i.number_comment }} comments</span>
+            </div>
+            <div class="extra content">
+                <div class="mb-5">
+                  
+                </div>
+                <button class="cmt_btn ui button mb-5">show / hide comments</button>
+                <div class="comment-box">
+                {% if i.comment.all %}
+                    {% for c in i.comment.all %}
+                        <div class="ui segment mb-8">
+                            <img class="ui avatar image" src="{{c.user.image.url}}">
+                            <span>{{ c.user }}</span>
+                            <div class='mt-5'>{{ c.body }}</div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+                <form action="" method="POST" class='ui fluid form mt-8'>
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{i.id}}">
+                    {{ c_form }}
+                    <button type="submit" name="comment_button" class="ui primary button mt-8 w-full">Comment</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="five wide column">
+        <div class="ui segment">
+            {% if post_added %}
+                <div class="ui green message">Post added</div>
+            {% endif %}
+            <form action="" method="POST" class='ui form' enctype="multipart/form-data">
+                {% csrf_token %}
+                {{p_form}}
+                <button type='submit' name="post_button" class="ui positive button w-full mt-8">Post</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock content %}

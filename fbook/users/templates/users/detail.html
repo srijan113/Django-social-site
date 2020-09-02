@@ -1,0 +1,61 @@
+{% extends 'blogs/base.html' %}
+{% block content %}
+    <div class="ui grid">
+        <div class="row">
+            <div class="four wide column">
+                <img src="{{object.image.url}}" class="ui medium rounded image" alt="PIC">
+                <h1>{{object.user.username}}</h1>
+                <div class="ui vertical fluid menu">
+                    <div class="item">
+                        Posts
+                        <div class="ui label">{{object.get_posts_number}}</div>
+                    </div>
+                    <div class="item">
+                        Likes Given
+                        <div class="ui label">{{object.likes_given}}</div>
+                    </div>
+                    <div class="item">
+                        Likes Received
+                        <div class="ui label">{{object.likes_received}}</div>
+                    </div>
+                    <div class="item">
+                        Number of friends
+                        <div class="ui label">{{object.get_friends_number}}</div>
+                    </div>
+                </div>
+                {% if object.user not in rel_receiver and object.user not in rel_sender %}
+                <form action="{% url 'sendInvite' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="profile_id" value={{object.id}}>
+                    <button type="submit" class="ui positive basic button mt-8 w-btn"><i class="plus square icon"></i>Add to Friends</button>
+                </form>
+                {% endif %}
+                <div class="next">
+                    {% if object.user in rel_receiver and request.user not in object.friends.all %}
+                        <button type="submit" class="ui disabled button mt-8 w-btn"><i class="user icon"></i>Waiting for approval</button>
+                    {% endif %}
+                </div>
+                {% if request.user in object.friends.all %}
+                <form action="{% url 'removeFriends' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="profile_id" value={{object.id}}>
+                    <button type="submit" class="ui negative basic button mt-8 w-btn"><i class="minus square icon"></i>Remove as Friend</button>   
+                </form>
+                {% endif %}
+            </div>
+            <div class="twelve wide column">
+                {% if object.get_posts_number == 0 %}
+                    <div class="ui teal message">
+                        {{object.user.username}} has not posted any things yet.
+                    </div>
+                {% else %}
+                {% for i in object.get_all_auth_post %}
+                    <div class="ui segment">
+                        {{i.content}}
+                    </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

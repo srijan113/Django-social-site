@@ -1,0 +1,13 @@
+{% extends 'blogs/base.html' %}
+{% block content %}
+<div class="ui segment">
+    <h1>Delete Post</h1>
+    <h2>Are you sure you want to delete this post {{object.author}}?</h2>
+    <form action="" method="POST" class="ui form">
+        {% csrf_token %}
+        {{form}}
+        <a href="{% url 'home' %}" class="ui secondary button">Cancel</a>
+        <button type="submit" class="ui red button mt-8">Delete</button>
+    </form>
+</div>
+{% endblock content %}

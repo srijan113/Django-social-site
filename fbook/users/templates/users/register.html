@@ -1,0 +1,12 @@
+{% extends 'blogs/base.html' %}
+{% block content %}
+<div class="ui container">
+    <div class="ui raised segment">
+    <form action="#" method="POST" class="ui form">
+        {% csrf_token %}
+        <div class="magic">{{r_form}}</div>
+        <button type="submit" class="ui teal button mt-8">Regsiter</button>
+    </form>
+    </div>
+</div>
+{% endblock content %}

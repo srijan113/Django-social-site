@@ -1,0 +1,87 @@
+{% extends 'blogs/base.html' %}
+{% block content %}
+<!-- this is modal -->
+<div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+      Update Profile
+    </div>
+    <div class="image content">
+      <div class="ui medium image">
+        <img src="{{pro.image.url}}">
+      </div>
+      <div class="description">
+        <div class="ui header">Provide additional info about yourself.</div>
+        <form action="#" class="ui form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{p_form.as_p}}
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui black deny button">
+        Nope
+      </div>
+      <button type="submit" class="ui positive right labeled icon button">
+        Update
+        <i class="checkmark icon"></i>
+      </button>
+    </form>
+    </div>
+  </div>
+
+  <div class="ui yellow segment">
+      <h3>Profile: {{pro.user.username}}</h3>
+      <div class="ui grid">
+      <div class="row">
+          <div class="six wide column">
+              <img src="{{pro.image.url}}" alt="Profile" class="ui medium rounded image">
+            <div class="row mt-8">
+                <button class="ui secondary button" id="modal-btn">Update your Profile</button>
+            </div>
+          </div>
+          <div class="ten wide column">
+              <table class="ui table">
+                  <tbody>
+                      <tr>
+                          <td>Username</td>
+                          <td>{{pro.user.username}}</td>
+                      </tr>
+                      <tr>
+                          <td>First Name</td>
+                          <td>{{pro.user.first_name}}</td>
+                      </tr>
+                      <tr>
+                          <td>Last Name</td>
+                          <td>{{pro.user.last_name}}</td>
+                      </tr>
+                      <tr>
+                          <td>Country</td>
+                          <td><i class="{{pro.country}} flag"></i>{{pro.country}}</td>
+                      </tr>
+                      <tr>
+                          <td>Email</td>
+                          <td>{{pro.email}}</td>
+                      </tr>
+                      <tr>
+                        <td>Number of Friends</td>
+                        <td>{{pro.get_friends_number}}</td>
+                      </tr>
+                      <tr>
+                        <td>Number of Posts</td>
+                        <td>{{pro.get_posts_number}}</td>
+                      </tr>
+                      <tr>
+                        <td>Number of Post liked</td>
+                        <td>{{pro.likes_given}}</td>
+                      </tr>
+                      <tr>
+                        <td>Number of Likes received</td>
+                        <td>{{pro.likes_received}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
