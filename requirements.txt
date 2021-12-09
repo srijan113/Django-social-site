@@ -10,7 +10,6 @@ isort==4.3.21
 Kivy-Garden==0.1.4
 lazy-object-proxy==1.4.1
 mccabe==0.6.1
-numpy==1.17.2
 Pillow==7.1.1
 Pygments==2.6.1
 pylint==2.3.1
